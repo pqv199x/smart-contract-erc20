@@ -21,7 +21,29 @@ contract DappToken {
     totalSupply = _initialSupply;
   }
 
+  event Transfer(
+    address indexed _from,
+    address indexed _to,
+    uint256 _value
+  );
+
   /**
   * Transfer
   */
+  function transfer(address _to, uint256 _value) public returns(bool success) {
+    // Check account have enought token
+    require(balanceOf[msg.sender] >= _value);
+
+    // Deducting amount from sending account
+    balanceOf[msg.sender] -= _value;
+
+    // For receiver
+    balanceOf[_to] += _value;
+
+    // Transfer event
+    Transfer(msg.sender, _to, _value);
+
+    // Return boolean
+    return true;
+  }
 }
