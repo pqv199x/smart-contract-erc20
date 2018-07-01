@@ -87,7 +87,7 @@ contract('DappToken', (accounts) => {
       return tokenInstance.transfer(fromAccount, 100, { from: accounts[0] });
     }).then((receipt) => {
       // Approve spendingAccount to spend 10000000 tokens from fromAccount
-      return tokenInstance.approve(spendingAccount, 10, { from: fromAccount });
+      return tokenInstance.approve(spendingAccount, 18, { from: fromAccount });
     }).then((receipt) => {
       // Transfer some tokens that larger than sender's balance
       return tokenInstance.transferFrom(fromAccount, toAccount, 9999, { from: spendingAccount });
@@ -115,7 +115,7 @@ contract('DappToken', (accounts) => {
       assert.equal(balance.toNumber(), 10, 'adds the amount from the receiving account');
       return tokenInstance.allowance(fromAccount, spendingAccount);
     }).then((allowance) => {
-      assert.equal(allowance, 0, 'deducts from the allowance');
+      assert.equal(allowance.toNumber(), 8, 'deducts from the allowance');
     });
   });
 });
