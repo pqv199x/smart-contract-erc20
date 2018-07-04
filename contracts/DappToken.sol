@@ -9,6 +9,10 @@ contract DappToken {
   string public symbol = "TST";
   // Standard
   string public standard = "Test Token v1.0";
+  // Decimals
+  uint8 public decimals = 18;
+  // Initiate total supply
+  uint256 public initialSupply = 100000000;
 
   mapping(address => uint256) public balanceOf;
 
@@ -18,10 +22,11 @@ contract DappToken {
   /**
   * Contructor || Read the total number of tokens
   */
-  function DappToken (uint256 _initialSupply) public {
+  function DappToken () public {
+    totalSupply = initialSupply * 10**uint(decimals);
     // msg keyword global || sender: the address that call function
-    balanceOf[msg.sender] = _initialSupply;
-    totalSupply = _initialSupply;
+    balanceOf[msg.sender] = totalSupply;
+    
   }
 
   // Triggered when tokens are transfered

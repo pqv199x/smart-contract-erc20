@@ -8,7 +8,6 @@ contract('DappTokenSale', (accounts) => {
   let numberOfTokens;
   let tokenSaleInstance;
   let tokenInstance;
-  let tokenPrice = 1000000000000000; // wei
 
   it('initializes the contract with the correct values', () => {
     return DappTokenSale.deployed().then((instance) => {
@@ -19,9 +18,6 @@ contract('DappTokenSale', (accounts) => {
       return tokenSaleInstance.tokenContract();
     }).then((address) => {
       assert.notEqual(address, 0x0, 'has token contract address');
-      return tokenSaleInstance.tokenPrice();
-    }).then((price) => {
-      assert.equal(price, tokenPrice, 'token price is correct');
     })
   });
 
@@ -36,8 +32,9 @@ contract('DappTokenSale', (accounts) => {
       // Provision 75% of all tokens to the token sale
       return tokenInstance.transfer(tokenSaleInstance.address, tokensAvailable, { from: admin })
     }).then(function(receipt) {
-      numberOfTokens = 10;
-      return tokenSaleInstance.buyTokens(numberOfTokens, { from: buyer, value: numberOfTokens * tokenPrice })
+      // Buying 1000000 number of tokens
+      numberOfTokens = 1000000;
+      return tokenSaleInstance.buyTokens(numberOfTokens, { from: buyer, value: numberOfTokens })
     }).then(function(receipt) {
       assert.equal(receipt.logs.length, 1, 'triggers one event');
       assert.equal(receipt.logs[0].event, 'LogSell', 'should be the LogSell event');
@@ -56,7 +53,7 @@ contract('DappTokenSale', (accounts) => {
       return tokenSaleInstance.buyTokens(numberOfTokens, { from: buyer, value: 1 });
     }).then(assert.fail).catch(function(error) {
       assert(error.message.indexOf('revert') >= 0, 'msg.value must equal number of tokens in wei');
-      return tokenSaleInstance.buyTokens(9999999999999999, { from: buyer, value: numberOfTokens * tokenPrice })
+      return tokenSaleInstance.buyTokens(9e+30, { from: buyer, value: numberOfTokens })
     }).then(assert.fail).catch(function(error) {
       assert(error.message.indexOf('revert') >= 0, 'cannot purchase more tokens than avaialable');
     });
@@ -78,7 +75,7 @@ contract('DappTokenSale', (accounts) => {
     }).then((receipt) => {
       return tokenInstance.balanceOf(admin);
     }).then((balance) => {
-      assert.equal(balance.toNumber(), 99999990, 'returns all unsold tokens to admin');
+      assert.equal(balance.toNumber(), 1e+26, 'returns all unsold tokens to admin');
       // Check that the contract has no balance
       balance = web3.eth.getBalance(tokenSaleInstance.address)
       assert.equal(balance.toNumber(), 0);

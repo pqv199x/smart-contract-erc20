@@ -4,22 +4,18 @@ import './DappToken.sol';
 contract DappTokenSale {
   address admin;
   DappToken public tokenContract;
-  uint256 public tokenPrice;
   uint256 public tokensSold;
 
   // Trigger Events
   event LogSell(address _buyer, uint256 _amount);
 
   // Constructor
-  function DappTokenSale(DappToken _tokenContract, uint256 _tokenPrice) public {
+  function DappTokenSale(DappToken _tokenContract) public {
     // Assign an admin
     admin = msg.sender;
 
     // Assign Token contract
     tokenContract = _tokenContract;
-
-    // Token price
-    tokenPrice = _tokenPrice;
   }
 
   // multiply
@@ -30,7 +26,7 @@ contract DappTokenSale {
   // Buy token
   function buyTokens(uint256 _numberOfTokens) public payable {
     // Require value is equal tokens
-    require(msg.value == multiply(_numberOfTokens, tokenPrice));
+    require(msg.value == _numberOfTokens);
 
     // Require contract has enough tokens
     require(tokenContract.balanceOf(this) >= _numberOfTokens);
