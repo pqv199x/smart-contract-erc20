@@ -19,6 +19,12 @@ Token Symbol: TST
 
 Total Supply: 100000000
 
+Decimals: 18
+
+Start selling date: 18/06/2018 Using [this](https://www.epochconverter.com/) to convert time
+
+End selling date: 30/06/2018 Using [this](https://www.epochconverter.com/) to convert time
+
 ## Requirements:
 
 This project requires:

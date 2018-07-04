@@ -6,6 +6,18 @@ contract DappTokenSale {
   DappToken public tokenContract;
   uint256 public tokensSold;
 
+  // Start selling date, TYPE: timestamp
+  uint256 public startDate = 1529254800; // June 18, 2018 12:00:00 AM GMT+07:00
+
+  // End selling date, TYPE: timestamp
+  uint256 public endDate = 1530291600; // June 30, 2018 12:00:00 AM GMT+07:00
+
+  // Validate buying date
+  modifier whenSaleIsActive() {
+    assert(isSellingDate());
+    _;
+  }
+
   // Trigger Events
   event LogSell(address _buyer, uint256 _amount);
 
@@ -18,13 +30,30 @@ contract DappTokenSale {
     tokenContract = _tokenContract;
   }
 
+  /**
+  * Validate buying date
+  */
+  function isSellingDate() constant  returns (bool) {
+    return (
+      now >= startDate &&
+      now <= endDate
+    );
+  }
+
+  /**
+  * Set endDate again in order to test
+  */
+  function newEndDate(uint256 _endDate) public {
+    endDate = _endDate;
+  }
+
   // multiply
   function multiply(uint x, uint y) internal pure returns (uint z) {
     require(y == 0 || (z = x * y) / y == x);
   }
 
   // Buy token
-  function buyTokens(uint256 _numberOfTokens) public payable {
+  function buyTokens(uint256 _numberOfTokens) public payable whenSaleIsActive {
     // Require value is equal tokens
     require(msg.value == _numberOfTokens);
 
