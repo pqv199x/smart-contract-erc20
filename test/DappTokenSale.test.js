@@ -81,6 +81,16 @@ contract('DappTokenSale', (accounts) => {
       return tokenSaleInstance.buyTokens(9e+30, { from: buyer, value: numberOfTokens })
     }).then(assert.fail).catch((error) => {
       assert(error.message.indexOf('revert') >= 0, 'cannot purchase more tokens than avaialable');
+
+      // Purchase under minimum acceptable amount
+      return tokenSaleInstance.buyTokens(10000, { from: buyer, value: numberOfTokens });
+    }).then(assert.fail).catch((error) => {
+      assert(error.message.indexOf('revert') >= 0, 'cannot purchase tokens less than 0.1 ETH');
+
+      // Purchase more than acceptable amount
+      return tokenSaleInstance.buyTokens(11 * 10**18, { from: buyer, value: numberOfTokens });
+    }).then(assert.fail).catch((error) => {
+      assert(error.message.indexOf('revert') >= 0, 'cannot purchase tokens more than 10 ETH');
     });
   });
 

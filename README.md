@@ -25,6 +25,10 @@ Start selling date: 18/06/2018 Using [this](https://www.epochconverter.com/) to 
 
 End selling date: 30/06/2018 Using [this](https://www.epochconverter.com/) to convert time
 
+Maximum purchase amount: 10 ETH
+
+Minimum purchase amount: 0.1 ETH
+
 ## Requirements:
 
 This project requires:

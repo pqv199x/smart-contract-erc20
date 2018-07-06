@@ -12,6 +12,12 @@ contract DappTokenSale {
   // End selling date, TYPE: timestamp
   uint256 public endDate = 1530291600; // June 30, 2018 12:00:00 AM GMT+07:00
 
+  // Minimum acceptable purchase amount
+  uint256 public minAmount = 0.1 ether; // 0.1 ETH
+
+  // Maximum acceptable purchase amount
+  uint256 public maxAmount = 10 ether;  // 10 ETH
+
   // Validate buying date
   modifier whenSaleIsActive() {
     assert(isSellingDate());
@@ -59,6 +65,13 @@ contract DappTokenSale {
 
     // Require contract has enough tokens
     require(tokenContract.balanceOf(this) >= _numberOfTokens);
+
+    // Require minimum acceptable purchase amount
+    require(_numberOfTokens >= minAmount);
+
+    // Require maximum acceptable purchase amount
+    require(_numberOfTokens <= maxAmount);
+
 
     // Require that a transfer is succesful
     require(tokenContract.transfer(msg.sender, _numberOfTokens));
