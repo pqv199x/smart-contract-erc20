@@ -57,7 +57,7 @@ contract('DappTokenSale', (accounts) => {
       return tokenSaleInstance.buyTokens(numberOfTokens, { from: buyer, value: numberOfTokens })
     }).then((receipt) => {
       assert.equal(receipt.logs.length, 1, 'triggers one event');
-      assert.equal(receipt.logs[0].event, 'LogSell', 'should be the LogSell event');
+      assert.equal(receipt.logs[0].event, 'Sell', 'should be the Sell event');
       assert.equal(receipt.logs[0].args._buyer, buyer, 'logs the account that purchased the tokens');
       assert.equal(receipt.logs[0].args._amount, numberOfTokens, 'logs the number of tokens purchased');
 

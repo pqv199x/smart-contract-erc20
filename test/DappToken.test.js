@@ -56,7 +56,7 @@ contract('DappToken', (accounts) => {
       return tokenInstance.transfer(accounts[1], 1e+25, { from: accounts[0] });
     }).then((receipt) => {
       assert.equal(receipt.logs.length, 1, 'triggers one event');
-      assert.equal(receipt.logs[0].event, 'LogTransfer', 'should be LogTransfer event');
+      assert.equal(receipt.logs[0].event, 'Transfer', 'should be Transfer event');
       assert.equal(receipt.logs[0].args._from, accounts[0], 'logs the transfering account');
       assert.equal(receipt.logs[0].args._to, accounts[1], 'logs the receiving account');
       assert.equal(receipt.logs[0].args._value, 1e+25, 'logs the transfering amount');
@@ -82,7 +82,7 @@ contract('DappToken', (accounts) => {
       return tokenInstance.approve(accounts[1], 1e+25, { from: accounts[0] });
     }).then((receipt) => {
       assert.equal(receipt.logs.length, 1, 'triggers one event');
-      assert.equal(receipt.logs[0].event, 'LogApproval', 'should be LogApproval event');
+      assert.equal(receipt.logs[0].event, 'Approval', 'should be Approval event');
       assert.equal(receipt.logs[0].args._owner, accounts[0], 'logs the account the tokens are authorized by');
       assert.equal(receipt.logs[0].args._spender, accounts[1], 'logs the account the tokens are authorized to');
       assert.equal(receipt.logs[0].args._value, 1e+25, 'logs the transfering amount');
@@ -122,7 +122,7 @@ contract('DappToken', (accounts) => {
       return tokenInstance.transferFrom(fromAccount, toAccount, 1e+20, { from: spendingAccount });      
     }).then((receipt) => {
       assert.equal(receipt.logs.length, 1, 'triggers one event');
-      assert.equal(receipt.logs[0].event, 'LogTransfer', 'should be LogTransfer event');
+      assert.equal(receipt.logs[0].event, 'Transfer', 'should be Transfer event');
       assert.equal(receipt.logs[0].args._from, fromAccount, 'logs the account the tokens are transfered from');
       assert.equal(receipt.logs[0].args._to, toAccount, 'logs the account the tokens are transfered to');
       assert.equal(receipt.logs[0].args._value, 1e+20, 'logs the transfering amount');

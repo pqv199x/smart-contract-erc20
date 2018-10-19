@@ -5,4 +5,5 @@ module.exports = function(deployer) {
   deployer.deploy(DappToken).then(() => {
     return deployer.deploy(DappTokenSale, DappToken.address);
   });
+  // deployer.deploy(DappToken)
 };
